@@ -14,7 +14,7 @@ interface BrowserManifests {
 }
 
 const browsers: BrowserManifests = {
-  chrome: {
+  chromium: {
     color: "\x1b[32m",
     omits: ["applications", "options_ui"],
   },
@@ -23,6 +23,9 @@ const browsers: BrowserManifests = {
     omits: ["options_page"],
   },
 };
+
+if (Deno.args[0] === "chromium") delete browsers.firefox;
+if (Deno.args[0] === "firefox") delete browsers.chromium;
 
 console.log("\x1b[37mPackager\n========\x1b[0m");
 
@@ -76,13 +79,14 @@ Object.keys(browsers).forEach(async (browserId) => {
       if (sourceFileName.indexOf(".map") === -1) {
         console.log(`building ${sourceFileName}...`);
       }
-      if (diagnostics.length) {
-        diagnostics.forEach(logDiagnosticError);
-      }
       Deno.writeTextFile(
         `./dist/${browserId}/${sourceFileName}`,
         text as string,
       );
+    }
+
+    if (diagnostics.length) {
+      diagnostics.forEach(logDiagnosticError);
     }
   });
 
