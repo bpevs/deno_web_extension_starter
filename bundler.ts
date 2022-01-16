@@ -36,7 +36,7 @@ Object.keys(browsers).forEach(async (browserId) => {
   ensureDir(`${distDir}/static`);
 
   const options = { overwrite: true };
-  copySync("./source/static", `${distDir}/static`, options);
+  copySync("./source/static", distDir, options);
 
   // Transform Manifest
   const manifest = JSON.parse(Deno.readTextFileSync("source/manifest.json"));
@@ -52,29 +52,15 @@ Object.keys(browsers).forEach(async (browserId) => {
   const jsFiles = await Promise.all([
     loadFile("./source/background.ts"),
     loadFile("./source/contentScript.ts"),
-    loadFile("./source/options.ts"),
+    loadFile("./source/options.tsx"),
     loadFile("./source/popup.ts"),
   ]);
 
-  async function loadFile(filePath: string) {
-    try {
-      return await Deno.emit(filePath, {
-        compilerOptions: {
-          lib: [
-            "dom",
-            "dom.iterable",
-            "esnext",
-          ]
-        },
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  jsFiles.forEach(({ diagnostics, files }: any) => {
+  jsFiles.forEach(([filePath, { diagnostics, files }]: any) => {
     for (const [sourcePath, text] of Object.entries(files)) {
-      const sourceFileName = basename(sourcePath).replace(".ts", "");
+      const sourceFileName = basename(filePath)
+        .replace(".tsx", ".js")
+        .replace(".ts", ".js");
       if (sourceFileName.indexOf(".map") === -1) {
         console.log(`building ${sourceFileName}...`);
       }
@@ -105,6 +91,25 @@ interface DiagnosticError {
   fileName: string;
   relatedInformation: any;
 }
+
+async function loadFile(filePath: string) {
+  try {
+    return [filePath, await Deno.emit(filePath, {
+      bundle: 'classic',
+      compilerOptions: {
+        lib: [
+          "dom",
+          "dom.iterable",
+          "es6",
+        ],
+        "target": "es5"
+      }
+    })];
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 
 function logDiagnosticError(error: DiagnosticError) {
   const filteredFileName = (error.fileName || "").split("source").pop();
