@@ -60,12 +60,11 @@ Object.keys(browsers).forEach(async (browserId) => {
     try {
       return await Deno.emit(filePath, {
         compilerOptions: {
-          noImplicitAny: false,
           lib: [
             "dom",
             "dom.iterable",
-            "es6",
-          ],
+            "esnext",
+          ]
         },
       });
     } catch (e) {
