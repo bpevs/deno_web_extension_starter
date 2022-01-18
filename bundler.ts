@@ -3,6 +3,7 @@
  */
 import { copySync, ensureDir } from "https://deno.land/std@0.97.0/fs/mod.ts";
 import { basename, extname } from "https://deno.land/std@0.97.0/path/mod.ts";
+import compilerOptions from './tsconfig.ts';
 
 interface BrowserManifestSettings {
   color: string;
@@ -12,6 +13,12 @@ interface BrowserManifestSettings {
 interface BrowserManifests {
   [id: string]: BrowserManifestSettings;
 }
+
+const emitOptions: Deno.EmitOptions = {
+  bundle: "classic",
+  importMapPath: "./import_map.json",
+  compilerOptions,
+};
 
 const browsers: BrowserManifests = {
   chromium: {
@@ -30,13 +37,13 @@ if (Deno.args[0] === "firefox") delete browsers.chromium;
 console.log("\x1b[37mPackager\n========\x1b[0m");
 
 Object.keys(browsers).forEach(async (browserId) => {
-  const distDir = `./dist/${browserId}`;
+  const distDir = `dist/${browserId}`;
 
   // Copy JS/HTML/CSS/ICONS
   ensureDir(`${distDir}/static`);
 
   const options = { overwrite: true };
-  copySync("./source/static", distDir, options);
+  copySync("source/static", distDir, options);
 
   // Transform Manifest
   const manifest = JSON.parse(Deno.readTextFileSync("source/manifest.json"));
@@ -48,77 +55,38 @@ Object.keys(browsers).forEach(async (browserId) => {
     JSON.stringify(manifest, null, 2),
   );
 
-  // Compile JS Files
+  const color = browserManifest.color || "";
+  console.log(`Builing for \x1b[1m${color}${browserId.toUpperCase()}\x1b[0m\n`);
+
   const jsFiles = await Promise.all([
-    loadFile("./source/background.ts"),
-    loadFile("./source/contentScript.ts"),
-    loadFile("./source/options.tsx"),
-    loadFile("./source/popup.ts"),
+    loadFile("background.ts"),
+    loadFile("options.tsx"),
+    loadFile("contentScript.ts"),
+    loadFile("popup.ts"),
   ]);
 
-  jsFiles.forEach(([filePath, { diagnostics, files }]: any) => {
-    for (const [sourcePath, text] of Object.entries(files)) {
-      const sourceFileName = basename(filePath)
-        .replace(".tsx", ".js")
-        .replace(".ts", ".js");
-      if (sourceFileName.indexOf(".map") === -1) {
-        console.log(`building ${sourceFileName}...`);
-      }
-      Deno.writeTextFile(
-        `./dist/${browserId}/${sourceFileName}`,
-        text as string,
-      );
-    }
+  jsFiles.forEach(({ name, emitResult }) => {
+    const { diagnostics, files } = emitResult;
+    const bundleCode: string = files["deno:///bundle.js"];
+    const outputFileName = name.replace(/(t|j)sx?$/, "js");
+    const outputPath = `dist/${browserId}/${outputFileName}`;
+
+    console.info(`%c building ${name} > ${outputPath}...`, "color: #bada55");
 
     if (diagnostics.length) {
-      diagnostics.forEach(logDiagnosticError);
+      console.warn(Deno.formatDiagnostics(diagnostics));
     }
+
+    Deno.writeTextFile(outputPath, bundleCode);
   });
 
-  const color = browserManifest.color || "";
-  console.log(`Built for \x1b[1m${color}${browserId.toUpperCase()}\x1b[0m\n`);
+  console.log(
+    `Complete for \x1b[1m${color}${browserId.toUpperCase()}\x1b[0m\n`,
+  );
 });
 
-interface DiagnosticError {
-  category: number;
-  code: number;
-  start: { line: number; character: number };
-  end: { line: number; character: number };
-  messageText: string;
-  messageChain: any;
-  source: any;
-  sourceLine: string;
-  fileName: string;
-  relatedInformation: any;
-}
-
-async function loadFile(filePath: string) {
-  try {
-    return [filePath, await Deno.emit(filePath, {
-      bundle: 'classic',
-      compilerOptions: {
-        lib: [
-          "dom",
-          "dom.iterable",
-          "es6",
-        ],
-        "target": "es5"
-      }
-    })];
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-
-function logDiagnosticError(error: DiagnosticError) {
-  const filteredFileName = (error.fileName || "").split("source").pop();
-  console.log(
-    "\x1b[1m\x1b[33m",
-    `${filteredFileName} [Line ${error?.start?.line}:Column ${error?.start
-      ?.character}]`,
-    "\x1b[0m\n",
-    error.messageText,
-    "\n",
-  );
+async function loadFile(name: string) {
+  const filePath = `source/${name}`;
+  const emitResult = await Deno.emit(filePath, emitOptions);
+  return { name, emitResult };
 }

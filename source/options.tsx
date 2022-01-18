@@ -1,6 +1,3 @@
-import { React, ReactDOM } from 'https://unpkg.com/es-react@16.8.60/index.js'
+import { h, render } from "preact";
 
-window.addEventListener('DOMContentLoaded', () => {
-  let el = window.document.getElementById('app')
-  ReactDOM.hydrate(<div/>, el)
-})
+render(<h1>hello, world!</h1>, document.getElementById("mount"));
