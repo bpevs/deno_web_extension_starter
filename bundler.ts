@@ -3,7 +3,7 @@
  */
 import { copySync, ensureDir } from "https://deno.land/std@0.97.0/fs/mod.ts";
 import { basename, extname } from "https://deno.land/std@0.97.0/path/mod.ts";
-import compilerOptions from './tsconfig.ts';
+import compilerOptions from "./tsconfig.ts";
 
 interface BrowserManifestSettings {
   color: string;
@@ -56,7 +56,10 @@ Object.keys(browsers).forEach(async (browserId) => {
   );
 
   const color = browserManifest.color || "";
-  console.log(`Builing for \x1b[1m${color}${browserId.toUpperCase()}\x1b[0m\n`);
+  const browserName = browserId.toUpperCase();
+  const colorizedBrowserName = `\x1b[1m${color}${browserName}\x1b[0m`;
+
+  console.log(`Initializing ${colorizedBrowserName} build...`);
 
   const jsFiles = await Promise.all([
     loadFile("background.ts"),
@@ -65,6 +68,7 @@ Object.keys(browsers).forEach(async (browserId) => {
     loadFile("popup.ts"),
   ]);
 
+  console.log(`Writing Files for ${colorizedBrowserName}`);
   jsFiles.forEach(({ name, emitResult }) => {
     const { diagnostics, files } = emitResult;
     const bundleCode: string = files["deno:///bundle.js"];
@@ -81,7 +85,7 @@ Object.keys(browsers).forEach(async (browserId) => {
   });
 
   console.log(
-    `Complete for \x1b[1m${color}${browserId.toUpperCase()}\x1b[0m\n`,
+    `Build complete for ${colorizedBrowserName}`,
   );
 });
 

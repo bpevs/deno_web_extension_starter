@@ -1,5 +1,5 @@
 {
   "imports": {
-    "preact": "https://cdn.skypack.dev/preact"
+    "preact": "https://esm.sh/preact"
   }
 }

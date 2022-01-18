@@ -2,9 +2,9 @@
  * Workaround to allow us type definition on chrome extension globals
  */
 
-export { };
+export {};
 
 declare global {
-  var browser: any
-  var chrome: any
+  var browser: any;
+  var chrome: any;
 }
