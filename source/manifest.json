@@ -1,12 +1,10 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Browser Extension",
   "description": "A browser Extension",
   "version": "0.0.1",
   "background": {
-    "scripts": [
-      "background.js"
-    ]
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
@@ -26,7 +24,9 @@
     "browser_style": false
   },
   "permissions": [
-    "storage",
+    "storage"
+  ],
+  "optional_permissions": [
     "tabs"
   ],
   "icons": {

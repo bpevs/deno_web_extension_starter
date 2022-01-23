@@ -1,8 +1,8 @@
 build:
 	deno run --unstable --allow-net --allow-read --allow-write bundler.ts
 
-chromium:
-	deno run --unstable --allow-net --allow-read --allow-write bundler.ts chromium
+chrome:
+	deno run --unstable --allow-net --allow-read --allow-write bundler.ts chrome
 
 firefox:
 	deno run --unstable --allow-net --allow-read --allow-write bundler.ts firefox
@@ -10,8 +10,8 @@ firefox:
 watch:
 	deno run --unstable --watch --allow-net --allow-read --allow-write bundler.ts
 
-watch-chromium:
-	deno run --unstable --watch --allow-net --allow-read --allow-write bundler.ts chromium
+watch-chrome:
+	deno run --unstable --watch --allow-net --allow-read --allow-write bundler.ts chrome
 
 watch-firefox:
 	deno run --unstable --watch --allow-net --allow-read --allow-write bundler.ts firefox

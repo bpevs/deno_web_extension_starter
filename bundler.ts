@@ -21,7 +21,7 @@ const emitOptions: Deno.EmitOptions = {
 };
 
 const browsers: BrowserManifests = {
-  chromium: {
+  chrome: {
     color: "\x1b[32m",
     omits: ["applications", "options_ui"],
   },
@@ -31,8 +31,8 @@ const browsers: BrowserManifests = {
   },
 };
 
-if (Deno.args[0] === "chromium") delete browsers.firefox;
-if (Deno.args[0] === "firefox") delete browsers.chromium;
+if (Deno.args[0] === "chrome") delete browsers.firefox;
+if (Deno.args[0] === "firefox") delete browsers.chrome;
 
 console.log("\x1b[37mPackager\n========\x1b[0m");
 
