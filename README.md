@@ -1,10 +1,9 @@
 > **WARNINGS:**
 >
 > 1. **This application uses the unstable Deno api
-   > [`Deno.emit`](https://doc.deno.land/deno/unstable@v1.17.1/~/Deno.emit)**.
-   > - If you are worried about stability of this format, do not use it yet.
-> 2. **Types for `chrome` and `global` are not yet integrated.**
-   > - Your usage of extension apis will not be typechecked.
+   > [`Deno.emit`](https://doc.deno.land/deno/unstable@v1.17.1/~/Deno.emit)**
+> 2. **Types for `chrome` and `global` are not yet integrated.** (Your usage of
+   > extension apis will not be typechecked.)
 
 # Browser-Extension-Boilerplate
 
