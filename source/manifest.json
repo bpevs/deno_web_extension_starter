@@ -38,7 +38,7 @@
   },
   "applications": {
     "gecko": {
-      "id": "browser-extension@{insert.name}"
+      "id": "browser-extension@my-extension-name"
     }
   }
 }

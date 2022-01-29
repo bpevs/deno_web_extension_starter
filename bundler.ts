@@ -1,13 +1,20 @@
 /**
- * Compile and bundle all the distributables into dist
+ * Compile and bundle all the distributables into dist.
+ *
+ * Note: This file does NOT use deno.json as a config file for itself.
+ * That config file is specifically for use in Deno.emit.
  */
 import { copySync, ensureDir } from "https://deno.land/std@0.97.0/fs/mod.ts";
-import { basename, extname } from "https://deno.land/std@0.97.0/path/mod.ts";
-import compilerOptions from "./tsconfig.ts";
+
+// Probably need to start using multiple config files to support
+// webworker functionality in background.ts
+import compilerOptions from "./deno.json" assert { type: "json" };
 
 interface BrowserManifestSettings {
   color: string;
   omits: string[];
+  // deno-lint-ignore no-explicit-any
+  overrides?: { [id: string]: any };
 }
 
 interface BrowserManifests {
@@ -17,7 +24,7 @@ interface BrowserManifests {
 const emitOptions: Deno.EmitOptions = {
   bundle: "classic",
   importMapPath: "./import_map.json",
-  compilerOptions,
+  compilerOptions: compilerOptions as Deno.CompilerOptions,
 };
 
 const browsers: BrowserManifests = {
@@ -27,6 +34,13 @@ const browsers: BrowserManifests = {
   },
   firefox: {
     color: "\x1b[91m",
+    overrides: {
+      manifest_version: 2,
+      // @todo this is not elegant
+      background: {
+        scripts: [ "background.js" ]
+      }
+    },
     omits: ["options_page"],
   },
 };
@@ -45,17 +59,21 @@ Object.keys(browsers).forEach(async (browserId) => {
   const options = { overwrite: true };
   copySync("source/static", distDir, options);
 
+  const browserManifestSettings = browsers[browserId];
+
   // Transform Manifest
-  const manifest = JSON.parse(Deno.readTextFileSync("source/manifest.json"));
-  const browserManifest = browsers[browserId];
-  browserManifest.omits.forEach((omit) => delete manifest[omit]);
+  const manifest = {
+    ...JSON.parse(Deno.readTextFileSync("source/manifest.json")),
+    ...browserManifestSettings.overrides
+  };
+  browserManifestSettings.omits.forEach((omit) => delete manifest[omit]);
 
   Deno.writeTextFileSync(
     distDir + "/manifest.json",
     JSON.stringify(manifest, null, 2),
   );
 
-  const color = browserManifest.color || "";
+  const color = browserManifestSettings.color || "";
   const browserName = browserId.toUpperCase();
   const colorizedBrowserName = `\x1b[1m${color}${browserName}\x1b[0m`;
 

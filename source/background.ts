@@ -1,5 +1,5 @@
-import "./types/global.ts";
+import browserAPI from "./utilities/browserAPI.ts";
 
-(chrome || browser).tabs.onUpdated.addListener(() => {
+browserAPI.tabs.onUpdated.addListener(() => {
   console.log("tab-updated");
 });

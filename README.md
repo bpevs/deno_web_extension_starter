@@ -2,7 +2,7 @@
 >
 > 1. **This application uses the unstable Deno api
    > [`Deno.emit`](https://doc.deno.land/deno/unstable@v1.17.1/~/Deno.emit)**
-> 2. **Types for `chrome`, `browser`, and `global` are not yet integrated.**
+> 2. **`chrome` and `browser` globals are currently `any` type**
 
 # Browser-Extension-Boilerplate
 
