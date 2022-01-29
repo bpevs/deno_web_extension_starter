@@ -1,3 +1,6 @@
+# Note: deno.json config and import_map.json are used by Deno.emit.
+# They are intentionally NOT used by this file
+
 build:
 	deno run --unstable --allow-net --allow-read --allow-write bundler.ts
 
