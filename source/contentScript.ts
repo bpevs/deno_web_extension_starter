@@ -5,11 +5,11 @@
 
 /// <reference lib="dom" />
 
-window.alert("Running Sample Browser Extension")
+window.alert("Running Sample Browser Extension");
 
 Array.prototype.forEach.call(
   document.getElementsByTagName("*"),
-  replaceNode
+  replaceNode,
 );
 
 function replaceNode(element: Element) {
@@ -20,7 +20,7 @@ function replaceNode(element: Element) {
     Array.prototype.forEach.call(el.childNodes, (n: Node) => {
       const { nodeName, nodeType } = n;
 
-      if (n.nodeName === 'input' || nodeName === "textarea") return
+      if (n.nodeName === "input" || nodeName === "textarea") return;
       else if (nodeType === 1) stack.push(n); // is element node
       else if (nodeType === 3) textNodes.push(n); // is text node
     });
@@ -38,5 +38,5 @@ function replaceNode(element: Element) {
         textNode,
       );
     }
-  })
+  });
 }

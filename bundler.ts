@@ -38,8 +38,8 @@ const browsers: BrowserManifests = {
       manifest_version: 2,
       // @todo this is not elegant
       background: {
-        scripts: [ "background.js" ]
-      }
+        scripts: ["background.js"],
+      },
     },
     omits: ["options_page"],
   },
@@ -64,7 +64,7 @@ Object.keys(browsers).forEach(async (browserId) => {
   // Transform Manifest
   const manifest = {
     ...JSON.parse(Deno.readTextFileSync("source/manifest.json")),
-    ...browserManifestSettings.overrides
+    ...browserManifestSettings.overrides,
   };
   browserManifestSettings.omits.forEach((omit) => delete manifest[omit]);
 
