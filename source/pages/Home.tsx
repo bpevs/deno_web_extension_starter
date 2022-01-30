@@ -1,9 +1,13 @@
+/* @jsx h */
+
 import { h } from "preact";
 
-export default function Home(props: {
+export interface HomeProps {
   default?: boolean;
   path?: string;
-}) {
+}
+
+export default function Home(props: HomeProps) {
   return (
     <div>
       <p>It feels like home</p>

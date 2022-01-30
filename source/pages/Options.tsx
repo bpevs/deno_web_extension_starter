@@ -1,9 +1,13 @@
+/* @jsx h */
+
 import { h } from "preact";
 
-export default function Options(props: {
+export interface OptionsProps {
   default?: boolean;
   path?: string;
-}) {
+}
+
+export default function Options(props: OptionsProps) {
   return (
     <div>
       <p>It feels like... options?</p>
