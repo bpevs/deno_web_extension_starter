@@ -1,8 +1,11 @@
-> **WARNINGS:**
->
-> 1. **This application uses the unstable Deno api
-   > [`Deno.emit`](https://doc.deno.land/deno/unstable@v1.17.1/~/Deno.emit)**
-> 2. **`chrome` and `browser` globals are currently `any` type**
+**WARNINGS:**
+
+1. Need to use Deno version PRE v1.22.0
+    - Deno.emit is not supported in v1.22.0
+    - We will transition to v1.22.0 when we can make a stable configuration for the userland [deno_emit](https://github.com/denoland/deno_emit) module
+    - To use unstable Deno v1.21.3: `deno upgrade --version 1.21.3`
+3. This application uses the unstable Deno api [`Deno.emit`](https://doc.deno.land/deno/unstable@v1.21.3/~/Deno.emit)
+3. `chrome` and `browser` globals are currently `any` type
 
 # Browser-Extension-Boilerplate
 
