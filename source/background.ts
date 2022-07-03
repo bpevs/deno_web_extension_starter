@@ -1,4 +1,4 @@
-import browserAPI from "./utilities/browserAPI.ts";
+import browserAPI from "browser";
 
 browserAPI.tabs.onUpdated.addListener(() => {
   console.log("tab-updated");

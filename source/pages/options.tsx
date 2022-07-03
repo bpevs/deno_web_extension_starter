@@ -1,5 +1,4 @@
 /* @jsx h */
-
 import { h } from "preact";
 
 export interface OptionsProps {
@@ -10,8 +9,8 @@ export interface OptionsProps {
 export default function Options(props: OptionsProps) {
   return (
     <div>
-      <p>It feels like... options?</p>
-      <a href="/home">go to home</a>
+      <h1>It feels like... options?</h1>
+      <a href="#home">go to home</a>
     </div>
   );
 }

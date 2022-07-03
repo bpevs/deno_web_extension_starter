@@ -1,5 +1,4 @@
 /* @jsx h */
-
 import { h } from "preact";
 
 export default function Header(props: { title: string }) {

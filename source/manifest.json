@@ -12,7 +12,7 @@
         "*://*/*"
       ],
       "js": [
-        "contentScript.js"
+        "content_script.js"
       ],
       "run_at": "document_end"
     }
@@ -29,6 +29,20 @@
   "optional_permissions": [
     "tabs"
   ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "32": "icons/32.png",
+      "48": "icons/48.png",
+      "64": "icons/64.png",
+      "128": "icons/128.png",
+      "256": "icons/256.png"
+    }
+  },
+  "browser_action": {
+    "default_icon": "icons/32.png",
+    "default_popup": "popup.html"
+  },
   "icons": {
     "32": "icons/32.png",
     "48": "icons/48.png",
@@ -38,7 +52,7 @@
   },
   "applications": {
     "gecko": {
-      "id": "browser-extension@my-extension-name"
+      "id": "browser-extension@my-extension-id-email.com"
     }
   }
 }
