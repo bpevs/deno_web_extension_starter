@@ -20,3 +20,5 @@ You need to download [Deno](https://deno.land/) in order to build this app.
 
 If you have bundled using make commands, you should be able to load your
 unpacked extension using a browser.
+
+![Options + Popup Page](./screenshots/options.png)
