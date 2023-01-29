@@ -1,22 +1,16 @@
-# Bext Boilerplate
+# Deno WebExtension Boilerplate
 
-Boilerplate to build a Deno + Preact-UI Browser Extension using
-[Bext](https://github.com/bpevs/bext).
+Boilerplate to build a Deno + Preact-UI Browser Extension.
+Basically, `built.ts` uses esbuild to build js into the `dist` dir, and updates manifest stuff for v2 (ff) and v3 (chrome).
 
-**NOTE:** BEXT BrowserAPI typing is not yet complete, so you may run into
-type-check errors such as `xxx.addListener is not a method` or whatnot. I've
-just been making updates as I need new methods; PRs to
-[update types](https://github.com/bpevs/bext/blob/main/source/types/browser_api.ts)
-are super valuable.
+fwiw I built [Bext](https://github.com/bpevs/bext) so that you don't have to think about it. `build.ts` here is basically the Bext `main.ts` script. But if you want max control, I guess you can start here. This app is a mirror of the [preact_example](https://github.com/bpevs/bext/tree/main/examples/preact_app) + `build.ts`
 
 You need to download [Deno](https://deno.land/) in order to build this app.
 
 | Commands                  | What they Do                               |
 | ------------------------- | ------------------------------------------ |
-| `deno task build`         | bundles extension                          |
-| `deno task build:chrome`  | bundles extension only for chrome          |
-| `deno task build:firefox` | bundles extension only for firefox         |
-| `deno task test:all`      | run fmt, lint, check types, and unit tests |
+| `deno run -A build.ts`    | bundles extension                          |
+| `deno run -A build.ts -w` | watch extension                          |
 
 If you have bundled using make commands, you should be able to load your
 unpacked extension using a browser.
