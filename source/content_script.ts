@@ -20,7 +20,14 @@ function replaceNode(element: Element) {
     Array.prototype.forEach.call(el.childNodes, (n: Node) => {
       const { nodeName, nodeType } = n;
 
-      if (n.nodeName === "input" || nodeName === "textarea") return;
+      // skip parent
+      const parentNodeName = n?.parentNode?.nodeName;
+
+      // finall it will comes to "#text"
+      if (
+        nodeName === "INPUT" || nodeName === "TEXTAREA" ||
+        parentNodeName === "INPUT" || parentNodeName == "TEXTAREA"
+      ) return;
       else if (nodeType === 1) stack.push(n); // is element node
       else if (nodeType === 3) textNodes.push(n); // is text node
     });
