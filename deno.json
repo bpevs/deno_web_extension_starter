@@ -13,9 +13,7 @@
   },
   "importMap": "./import_map.json",
   "lint": {
-    "files": {
-      "exclude": ["dist"]
-    }
+    "exclude": ["dist"]
   },
   "tasks": {
     "build": "bext",

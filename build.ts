@@ -1,8 +1,8 @@
-import * as esbuild from "https://deno.land/x/esbuild@v0.19.2/mod.js";
+import * as esbuild from "https://deno.land/x/esbuild@v0.19.9/mod.js";
 import { denoPlugins } from "https://deno.land/x/esbuild_deno_loader@0.8.2/mod.ts";
-import { parse } from "https://deno.land/std@0.170.0/flags/mod.ts";
-import { copySync, ensureDir } from "https://deno.land/std@0.170.0/fs/mod.ts";
-import { resolve } from "https://deno.land/std@0.170.0/path/mod.ts";
+import { parse } from "https://deno.land/std@0.208.0/flags/mod.ts";
+import { copySync, ensureDir } from "https://deno.land/std@0.208.0/fs/mod.ts";
+import { resolve } from "https://deno.land/std@0.208.0/path/mod.ts";
 
 interface BrowserManifestSettings {
   color: string;
@@ -99,10 +99,10 @@ const builds = Object.keys(browsers).map(async (browserId) => {
     ),
   ];
 
-  //// Add watch esbuild options
+  // Add watch esbuild options
   if (isWatching) {
     const watchplugin: esbuild.Plugin = {
-      name: "my-plugin",
+      name: "watch-plugin",
       setup(build) {
         build.onEnd((result) => {
           if (result.errors.length != 0) {

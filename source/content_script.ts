@@ -20,10 +20,8 @@ function replaceNode(element: Element) {
     Array.prototype.forEach.call(el.childNodes, (n: Node) => {
       const { nodeName, nodeType } = n;
 
-      // skip parent
       const parentNodeName = n?.parentNode?.nodeName;
 
-      // finall it will comes to "#text"
       if (
         nodeName === "INPUT" || nodeName === "TEXTAREA" ||
         parentNodeName === "INPUT" || parentNodeName == "TEXTAREA"
