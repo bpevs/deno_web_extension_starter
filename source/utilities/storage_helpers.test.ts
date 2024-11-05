@@ -1,7 +1,7 @@
-import browserAPI from "browser";
 import { assertStrictEquals } from "std/asserts";
 import { assertSpyCall, assertSpyCalls, stub } from "std/mock";
 
+import browserAPI from "./browser.ts";
 import { getStorage } from "./storage_helpers.ts";
 
 Deno.test("getStorage", async () => {

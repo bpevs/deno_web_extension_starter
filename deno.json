@@ -16,9 +16,9 @@
     "exclude": ["dist"]
   },
   "tasks": {
-    "build": "bext",
-    "build:chrome": "bext chrome",
-    "build:firefox": "bext firefox",
+    "build": "deno run -A build.ts",
+    "build:chrome": "deno run -A build.ts chrome",
+    "build:firefox": "deno run -A build.ts firefox",
     "test": "deno fmt && deno task check && deno task test:unit && deno lint",
     "test:unit": "deno test -A source",
     "test:unit:update": "deno test -A -- --update source",

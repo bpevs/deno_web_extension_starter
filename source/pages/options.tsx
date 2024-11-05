@@ -6,7 +6,7 @@ export interface OptionsProps {
   path?: string;
 }
 
-export default function Options(props: OptionsProps) {
+export default function Options(_props: OptionsProps) {
   return (
     <div>
       <h1>It feels like... options?</h1>

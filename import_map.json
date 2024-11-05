@@ -1,6 +1,5 @@
 {
   "imports": {
-    "browser": "https://deno.land/x/bext@v0.1.2/mod.ts",
     "preact": "https://esm.sh/preact?dev",
     "preact/hooks": "https://esm.sh/preact/hooks?dev",
 

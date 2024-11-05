@@ -1,4 +1,4 @@
-import browserAPI from "browser";
+import browserAPI from "./browser.ts";
 
 const { storage } = browserAPI;
 const KEY = "storage_key";
@@ -28,7 +28,7 @@ export function addStorageListener(callback: (str: string) => void) {
 }
 
 export function getStorage() {
-  return storage.sync.get(KEY).then((data) => data[KEY]);
+  return storage.sync.get(KEY).then((data: Update) => data[KEY]);
 }
 
 export function updateStorage(inputData: string) {

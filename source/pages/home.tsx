@@ -13,7 +13,7 @@ export interface HomeProps {
   path?: string;
 }
 
-export default function Home(props: HomeProps) {
+export default function Home(_props: HomeProps) {
   const [display, setDisplay] = useState<string>("");
   const [inputData, setInputData] = useState<string>("");
 
